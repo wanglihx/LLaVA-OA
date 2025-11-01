@@ -19,7 +19,7 @@ We have repeated the following operations on a new server to ensure full reprodu
 - `4-evalresult/`: stores original evaluation outputs that have already been renamed.
 - `5-dataset/`: contains dataset JSON templates and the minimal image dataset file structure; choose the files that match the dataset size you intend to use.
 - `6-apieval/`: includes evaluation files for closed-source MLLMs
-- `epoch-6/`: includes the published CLIP-OA checkpoint weights.Download from https://figshare.com/s/b3570f670210a046cbc8?file=59226716
+- `epoch-6/`: includes the published CLIP-OA checkpoint weights.Download from https://huggingface.co/PowerKing/CLIP-OA
 
 Follow the steps below to reproduce the experiments while keeping every path consistent with your infrastructure.
 
@@ -171,5 +171,6 @@ Ensure each script references the correct dataset, checkpoint, and output direct
 
 ## 6. Model Weights
 
-- The CLIP-OA weights are available under `epoch-6/`. Download from https://figshare.com/s/b3570f670210a046cbc8?file=59226716
+- The CLIP-OA weights are available under `epoch-6/`. Download from https://huggingface.co/PowerKing/CLIP-OA
+
 

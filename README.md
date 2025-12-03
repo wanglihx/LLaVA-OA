@@ -170,7 +170,8 @@ Ensure each script references the correct dataset, checkpoint, and output direct
 
 ## 6. Model Weights
 
-- The CLIP-OA weights are available at https://huggingface.co/PowerKing/CLIP-OA
+- The CLIP-OA weights are available at https://huggingface.co/wanglihx/CLIP-OA
+
 
 
 

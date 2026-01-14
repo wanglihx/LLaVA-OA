@@ -1,6 +1,6 @@
 ﻿# README
 
-## Paper
+## Preprint
 https://arxiv.org/abs/2601.02443
 
 ## Base Environment
@@ -174,6 +174,7 @@ Ensure each script references the correct dataset, checkpoint, and output direct
 ## 6. Model Weights
 
 - The CLIP-OA weights are available at https://huggingface.co/wanglihx/CLIP-OA
+
 
 
 

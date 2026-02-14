@@ -175,6 +175,16 @@ Ensure each script references the correct dataset, checkpoint, and output direct
 
 - The CLIP-OA weights are available at https://huggingface.co/wanglihx/CLIP-OA
 
+## Cited as
+@article{wang2026evaluating,
+  title   = {Evaluating the Diagnostic Classification Ability of Multimodal Large Language Models: Insights from the Osteoarthritis Initiative},
+  author  = {Wang, Li and others},
+  journal = {arXiv preprint arXiv:2601.02443},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2601.02443}
+}
+
+
 
 
 

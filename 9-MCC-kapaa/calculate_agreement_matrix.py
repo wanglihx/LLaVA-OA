@@ -98,7 +98,7 @@ def calc_pair(a, b, binary=False, metric="kappa"):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("--data_dir", default=os.path.join("..", "LLaVA-OA", "4-evalresult"),
+    ap.add_argument("--data_dir", default=os.path.join("..", "4-evalresult"),
                     help="path to the 4-evalresult directory")
     ap.add_argument("--output_dir", default=".", help="output directory for CSV files")
     args = ap.parse_args()

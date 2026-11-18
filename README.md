@@ -66,7 +66,7 @@ Add the new scripts from `2-new/` to the specified paths:
 ### 1.3 Datasets and Models
 
 - JSON instruction-image pairs: organise them under `Dataset/` and ensure the scripts point to the correct files.
-- Image dataset download: [https://data.mendeley.com/datasets/56rmx5bjcr/1](https://data.mendeley.com/datasets/56rmx5bjcr/1)
+- Image dataset download: [https://data.mendeley.com/datasets/56rmx5bjcr/1](https://data.mendeley.com/datasets/56rmx5bjcr/1). The study uses the original 7:1:2 split of this dataset (5,778 training, 826 validation, and 1,656 test images); the 826 validation images used in this study are the `val/` folder, organised into KL-grade subfolders.
 - Minimal image dataset file structure: `Dataset/image_structure`
 - Base multimodal model (LLaVA-Med v1.5): [https://huggingface.co/microsoft/llava-med-v1.5-mistral-7b](https://huggingface.co/microsoft/llava-med-v1.5-mistral-7b)
 
@@ -170,6 +170,94 @@ Ensure each script references the correct dataset, checkpoint, and output direct
 - `clipeval.py` produces `evaluation_results_detailed.json`.
 - `prompteval.py` and the closed-source evaluation script output files named `2025-xx-xx-summaryxxx.json`.
 - The files produced above are renamed according to the model names and stored in the `4-evalresult/` directory.
+
+## Updates During Peer Review
+
+The code below was added or revised in response to the editor's and reviewers'
+comments during the revision of this manuscript.
+
+### 7-clip-stop/ — Final CLIP training script
+
+Final version of the vision-encoder training script (replaces `3-clip/cliptrain.py`).
+In the original experiments, training was stopped manually: prior work shows that the
+number of fine-tuning epochs required for such models varies widely across tasks
+(roughly 4-200), so 120 epochs were set only as a conservative upper bound and the
+actual stopping point was decided by monitoring validation loss and accuracy.
+
+run:
+
+    python 7-clip-stop/cliptrain.py
+
+### 8-clip-loss/ — CLIP training with class-imbalance loss functions
+
+Supplementary training scripts used to evaluate class-imbalance mitigation
+techniques for the vision encoder, in response to the editorial comment on
+class imbalance:
+
+- `cliptrain_focal.py`: focal loss (gamma = 2.0) with class-alpha weights
+  scaled to a fixed largest-to-smallest ratio of 3:1;
+- `cliptrain_weighted.py`: standard cross-entropy loss with inverse-frequency
+  class weights derived from the 5,778-image training distribution;
+- `evaluation_results_clip_focal.json` and
+  `evaluation_results_detailed_weighted.json`: per-image evaluation outputs
+  of the two experiments (used for Supplementary Table 4).
+
+run:
+
+    python 8-clip-loss/cliptrain_focal.py
+    python 8-clip-loss/cliptrain_weighted.py
+
+### 9-MCC-kapaa/ — Inter-model agreement statistics
+
+Script that computes
+
+- Cohen's kappa and
+- Matthews correlation
+
+run:
+
+    python 9-MCC-kapaa/calculate_agreement_matrix.py
+
+### a10-McNemar/ — McNemar tests matched by image identifier
+
+Script that recomputes all pairwise McNemar tests with predictions paired by
+image identifier (not row position), reporting both uncorrected and
+continuity-corrected chi-square statistics with Holm correction.
+
+run:
+
+    python a10-McNemar/mcnemar_image_paired.py
+
+### a11-MLLM-weighted/ — Per-sample weighted loss for MLLM LoRA fine-tuning
+
+Revised LLaVA trainer that applies class weights at the sample level
+(per-sample weighting), together with the evaluation outputs of the four
+weighted-loss LoRA fine-tuning runs.
+
+Replace `llava/train/llava_trainer.py` in the cloned LLaVA repository with
+`llava_trainer_weighted.py` and follow the training workflow in Section 2.
+
+### a12-parsing/ — Output parsing script
+
+Script that extracts discrete KL grades (0-4) from the raw model outputs in
+`4-evalresult/` with the regular-expression pattern described in the Methods
+of the manuscript. Samples whose outputs cannot be parsed are reported as
+parse failures and excluded from downstream metric calculation.
+
+run:
+
+    python a12-parsing/parse_outputs.py
+
+### a13-metrics/ — Metric calculation script
+
+Script that computes the multiclass, binary, and per-class classification
+metrics reported in Table 3 (accuracy, precision, sensitivity, specificity,
+F1, MAE, and per-class 95% confidence intervals) from the evaluation outputs
+in `4-evalresult/`.
+
+run:
+
+    python a13-metrics/metric_calculation.py
 
 ## 6. Model Weights
 
